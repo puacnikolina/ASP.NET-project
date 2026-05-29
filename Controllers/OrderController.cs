@@ -1,9 +1,12 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 using System.Security.Claims;
 
+//treba biti ulogovan da moze da se pristupi kontroleru
+[Authorize]
 public class OrderController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -16,7 +19,7 @@ public class OrderController : Controller
     // GET: ORDERS
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Orders.ToListAsync());
+        return View(await _context.Orders.Include(o => o.User).ToListAsync()); //da dobijem User.Email za display
     }
 
     // GET: ORDERS/Details/5

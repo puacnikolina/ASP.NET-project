@@ -1,36 +1,50 @@
 @model Project.Models.Order
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Order";
 }
 
-<h1>Create</h1>
+<div class="px-4 sm:px-6 lg:px-8 py-8 max-w-3xl mx-auto">
+    <div class="md:flex md:items-center md:justify-between mb-6">
+        <div class="min-w-0 flex-1">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Create Order</h2>
+        </div>
+    </div>
 
-<h4>Order</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <form asp-action="Create" class="space-y-6">
+                <div asp-validation-summary="ModelOnly" class="text-sm text-red-600"></div>
 
-            <div class="form-group">
-                <label asp-for="OrderDate" class="control-label"></label>
-                <input asp-for="OrderDate" class="form-control" />
-                <span asp-validation-for="OrderDate" class="text-danger"></span>
-            </div>
+                <div>
+                    <label asp-for="OrderDate" class="block text-sm font-medium leading-6 text-gray-900"></label>
+                    <div class="mt-2">
+                        <input asp-for="OrderDate" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                    <span asp-validation-for="OrderDate" class="text-sm text-red-600 mt-1 block"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="TotalAmount" class="control-label"></label>
-                <input asp-for="TotalAmount" class="form-control" />
-                <span asp-validation-for="TotalAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div>
+                    <label asp-for="TotalAmount" class="block text-sm font-medium leading-6 text-gray-900"></label>
+                    <div class="mt-2">
+                        <input asp-for="TotalAmount" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                    <span asp-validation-for="TotalAmount" class="text-sm text-red-600 mt-1 block"></span>
+                </div>
+
+                <div class="pt-5 flex items-center justify-between">
+                    <a asp-action="Index" class="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                        <span aria-hidden="true">&larr;</span> Back to List
+                    </a>
+                    <button type="submit" class="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        Create Order
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

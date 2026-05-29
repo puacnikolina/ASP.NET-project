@@ -1,15 +1,25 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+
+    // Helper function to figure out the active class styling for Tailwind
+    string GetActiveStyle(string? navClass)
+    {
+        if (navClass == "active")
+        {
+            return "bg-gray-50 text-indigo-600 group flex items-center px-3 py-2 text-sm font-medium rounded-md"; // Active State
+        }
+        return "text-gray-900 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"; // Inactive State
+    }
 }
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+<ul role="list" class="space-y-1">
+    <li><a class="@GetActiveStyle(ManageNavPages.IndexNavClass(ViewContext))" id="profile" asp-page="./Index">Profile</a></li>
+    <li><a class="@GetActiveStyle(ManageNavPages.EmailNavClass(ViewContext))" id="email" asp-page="./Email">Email</a></li>
+    <li><a class="@GetActiveStyle(ManageNavPages.ChangePasswordNavClass(ViewContext))" id="change-password" asp-page="./ChangePassword">Password</a></li>
     @if (hasExternalLogins)
     {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+        <li><a id="external-login" class="@GetActiveStyle(ManageNavPages.ExternalLoginsNavClass(ViewContext))" asp-page="./ExternalLogins">External logins</a></li>
     }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+    <li><a class="@GetActiveStyle(ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext))" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+    <li><a class="@GetActiveStyle(ManageNavPages.PersonalDataNavClass(ViewContext))" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
 </ul>

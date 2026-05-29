@@ -4,61 +4,53 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
+<div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Create a new account</h2>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+        <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="space-y-6">
+                <div asp-validation-summary="ModelOnly" class="text-sm text-red-600 font-medium" role="alert"></div>
+
+                <div>
+                    <label asp-for="Input.Email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+                    <div class="mt-2">
+                        <input asp-for="Input.Email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" autocomplete="username" aria-required="true" />
                     </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
+                    <span asp-validation-for="Input.Email" class="text-sm text-red-600 mt-1 block"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                    <div class="mt-2">
+                        <input asp-for="Input.Password" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" autocomplete="new-password" aria-required="true" />
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-sm text-red-600 mt-1 block"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.ConfirmPassword" class="block text-sm font-medium leading-6 text-gray-900">Confirm Password</label>
+                    <div class="mt-2">
+                        <input asp-for="Input.ConfirmPassword" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" autocomplete="new-password" aria-required="true" />
+                    </div>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-sm text-red-600 mt-1 block"></span>
+                </div>
+
+                <div>
+                    <button id="registerSubmit" type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register</button>
+                </div>
+            </form>
+
+            <div class="mt-10 pt-6 border-t border-gray-200">
+                <div class="text-sm text-center">
+                    <p class="mb-2">Already have an account?</p>
+                    <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign in instead</a>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 
