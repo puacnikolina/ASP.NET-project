@@ -9,6 +9,7 @@ namespace Project.Models
         public decimal TotalAmount { get; set; }
         [ValidateNever]
         public ApplicationUser User { get; set; } //Navigation property
+        [ValidateNever]
         public string UserId { get; set; } //Foreign key
 
     }
