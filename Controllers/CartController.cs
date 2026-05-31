@@ -2,7 +2,7 @@
 using Project.Extensions;
 using Project.Models;
 using Project.Models.ViewModels;
-
+using System.Security.Claims;
 
 namespace Project.Controllers
 {
@@ -150,7 +150,7 @@ namespace Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout()
         {
             var cart = GetCart();
             if (!cart.Items.Any())
@@ -158,11 +158,43 @@ namespace Project.Controllers
                 TempData["Error"] = "Your cart is empty.";
                 return RedirectToAction("Index");
             }
-            // Here you would typically create an order and save it to the database
-            // For this example, we'll just clear the cart
+
+            // Get logged in user ID
+            var userId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                // Must be logged in to checkout
+                return Redirect("/Identity/Account/Login");
+            }
+
+            var newOrder = new Order
+            {
+                UserId = userId,
+                OrderDate = DateTime.Now,
+                TotalAmount = cart.TotalPrice,
+                Status = Order.OrderStatus.Pending
+            };
+
+            _context.Orders.Add(newOrder);
+
+            foreach (var cartItem in cart.Items)
+            {
+                var orderItem = new OrderItem
+                {
+                    Order = newOrder, 
+                    ProductId = cartItem.ProductId,
+                    Quantity = cartItem.Quantity,
+                    UnitPrice = cartItem.Price
+                };
+                _context.OrderItems.Add(orderItem);
+            }
+
+            await _context.SaveChangesAsync();
+
             HttpContext.Session.Remove(CartSessionKey);
             TempData["Success"] = "Thank you for your purchase!";
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Checkout");
         }
 
         //helper metoda koja ucitava cart iz sessiona, ako nema cart u sessionu, vraca novi prazan cart

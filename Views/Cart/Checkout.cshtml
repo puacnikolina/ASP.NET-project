@@ -64,17 +64,9 @@
             </ul>
 
             <dl class="space-y-4 border-t border-gray-200 pt-4">
-                <div class="flex items-center justify-between">
-                    <dt class="text-sm text-gray-600">Subtotal</dt>
-                    <dd class="text-sm font-medium text-gray-900">@Model.SubTotal.ToString("C")</dd>
-                </div>
-                <div class="flex items-center justify-between">
-                    <dt class="text-sm text-gray-600">Tax (7%)</dt>
-                    <dd class="text-sm font-medium text-gray-900">@Model.Tax.ToString("C")</dd>
-                </div>
                 <div class="flex items-center justify-between border-t border-gray-200 pt-4">
                     <dt class="text-base font-medium text-gray-900">Total</dt>
-                    <dd class="text-base font-medium text-gray-900">@Model.Total.ToString("C")</dd>
+                    <dd class="text-base font-medium text-gray-900">@Model.TotalPrice.ToString("C")</dd>
                 </div>
             </dl>
         </div>
