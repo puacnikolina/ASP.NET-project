@@ -5,16 +5,6 @@
 }
 
 <div class="px-4 sm:px-6 lg:px-8 py-8 max-w-7xl mx-auto">
-    <div class="md:flex md:items-center md:justify-between mb-6">
-        <div class="min-w-0 flex-1">
-            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Orders</h2>
-            <p class="mt-2 text-sm text-gray-500">A list of all the orders placed in your account including their dates, totals, and user information.</p>
-        </div>
-        <div class="mt-4 flex md:ml-4 md:mt-0">
-            <a asp-action="Create" class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create New Order</a>
-        </div>
-    </div>
-
     <div class="bg-white shadow sm:rounded-lg overflow-hidden">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -28,13 +18,10 @@
                                 @Html.DisplayNameFor(model => model.OrderDate)
                             </th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                 @Html.DisplayNameFor(model => model.TotalAmount)
-                            </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                User Email
-                            </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                @Html.DisplayNameFor(model => model.UserId)
                             </th>
                             <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                 <span class="sr-only">Actions</span>
@@ -52,19 +39,18 @@
                                     @Html.DisplayFor(model => item.OrderDate)
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                    @Html.DisplayFor(model => item.TotalAmount)
+                                    <dd class="mt-1">
+                                        <span class="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800">
+                                            @Html.DisplayFor(model => item.Status)
+                                        </span>
+                                    </dd>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                    @Html.DisplayFor(model => item.User.Email)
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    @Html.DisplayFor(model => item.UserId)
+                                    @Html.DisplayFor(model => item.TotalAmount)
                                 </td>
                                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                     <div class="inline-flex shadow-sm ring-1 ring-inset ring-gray-300 rounded-md bg-white">
                                         <a asp-action="Details" asp-route-orderid="@item.OrderId" class="inline-flex items-center rounded-l-md px-3 py-1.5 text-sm font-semibold text-gray-900 border-r border-gray-300 hover:bg-gray-50">Details</a>
-                                        <a asp-action="Edit" asp-route-orderid="@item.OrderId" class="inline-flex items-center px-3 py-1.5 text-sm font-semibold text-indigo-600 border-r border-gray-300 hover:bg-gray-50">Edit</a>
-                                        <a asp-action="Delete" asp-route-orderid="@item.OrderId" class="inline-flex items-center rounded-r-md px-3 py-1.5 text-sm font-semibold text-red-600 hover:bg-red-50">Delete</a>
                                     </div>
                                 </td>
                             </tr>
