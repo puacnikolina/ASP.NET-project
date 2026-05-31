@@ -35,7 +35,7 @@ public class LogoutModel : PageModel
         {
             // This needs to be a redirect so that the browser performs a new
             // request and the identity for the user gets updated.
-            return RedirectToPage();
+            return RedirectToAction("Index", "Product");
         }
     }
 }

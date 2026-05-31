@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +30,9 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapDefaultControllerRoute();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Product}/{action=Index}/{id?}"); //mapira da se otvori Product page kao pocetna stranica - default je da se otvori HomeController
 app.MapRazorPages(); //dodajemo podrsku za razor pages, jer identity koristi razor pages za login, register i druge funkcionalnosti vezane za korisnike
 
 app.Run();
