@@ -19,7 +19,11 @@ public class OrderController : Controller
     // GET: ORDERS
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Orders.Include(o => o.User).ToListAsync()); //da dobijem User.Email za display
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return View(await _context.Orders
+            .Include(o => o.User)
+            .Where(o => o.UserId == currentUserId)
+            .ToListAsync()); 
     }
 
     // GET: ORDERS/Details/5
@@ -30,11 +34,13 @@ public class OrderController : Controller
             return NotFound();
         }
 
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
         // da moze da se display - uzima sve iteme
         var order = await _context.Orders
             .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
-            .FirstOrDefaultAsync(m => m.OrderId == orderid);
+            .FirstOrDefaultAsync(m => m.OrderId == orderid && m.UserId == currentUserId);
 
         if (order == null)
         {
