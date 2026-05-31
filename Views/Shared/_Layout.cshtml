@@ -28,13 +28,19 @@
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-4 flex items-center md:ml-6">
-                            <button type="button" class="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
-                                <span class="absolute -inset-1.5"></span>
-                                <span class="sr-only">View notifications</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
-                                    <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </button>
+                            <a asp-controller="Cart" asp-action="Index"
+                               class="relative rounded-full p-1 text-gray-400 hover:text-white">
+                                <button type="button" class="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
+                                    <span class="absolute -inset-1.5"></span>
+                                    <span class="sr-only">View cart</span>
+
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6">
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              d="M2.25 3h1.386a1.5 1.5 0 0 1 1.455 1.136L5.25 6.75m0 0h13.364a1.5 1.5 0 0 1 1.455 1.864l-1.2 4.8a1.5 1.5 0 0 1-1.455 1.136H8.25m-3-8.8L6.75 15.75A1.5 1.5 0 0 0 8.25 17h9.75M9 21a.75.75 0 1 1 0-1.5A.75.75 0 0 1 9 21Zm9 0a.75.75 0 1 1 0-1.5A.75.75 0 0 1 18 21Z" />
+                                    </svg>
+                                </button>
+                            </a>
 
                             <!-- Profile dropdown -->
                             <el-dropdown class="relative ml-3">

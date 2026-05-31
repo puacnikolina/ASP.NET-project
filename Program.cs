@@ -11,15 +11,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //dependency injection za db context, da bi mogli da koristimo db context u controllerima i drugim delovima aplikacije
 //konfigurisemo identity da koristi nas db context za cuvanje korisnickih podataka
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
-    options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>(); 
+    options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+//dodajemo podrsku za session, da bi mogli da cuvamo podatke o korpi u sessionu
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
 app.UseStaticFiles();
+app.UseSession();
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
 app.MapRazorPages(); //dodajemo podrsku za razor pages, jer identity koristi razor pages za login, register i druge funkcionalnosti vezane za korisnike
+
 app.Run();
 
