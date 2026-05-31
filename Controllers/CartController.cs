@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Project.Extensions;
 using Project.Models;
 using Project.Models.ViewModels;
@@ -147,55 +149,81 @@ namespace Project.Controllers
             return RedirectToAction("Index");
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Checkout()
         {
             var cart = GetCart();
-            if (!cart.Items.Any())
+            if(cart.IsEmpty) { return RedirectToAction("Index"); }
+            return View(cart);
+        }
+
+        [HttpPost]
+        [Authorize] //znaci da mora biti ulogovan da bi mogao da poziva ovo
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PlaceOrder(string? shippingAdress)
+        {
+            var cart = GetCart();
+            if (cart.IsEmpty)
             {
-                TempData["Error"] = "Your cart is empty.";
                 return RedirectToAction("Index");
             }
 
-            // Get logged in user ID
-            var userId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
-            if (userId == null)
-            {
-                // Must be logged in to checkout
-                return Redirect("/Identity/Account/Login");
-            }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var newOrder = new Order
+            var order = new Order
             {
                 UserId = userId,
-                OrderDate = DateTime.Now,
                 TotalAmount = cart.TotalPrice,
-                Status = Order.OrderStatus.Pending
+                ShippingAddress = shippingAdress,
+                Status = Order.OrderStatus.Pending,
+                OrderDate = DateTime.Now
+
             };
 
-            _context.Orders.Add(newOrder);
-
-            foreach (var cartItem in cart.Items)
+            //dodavanje itema
+            foreach(var item in cart.Items)
             {
-                var orderItem = new OrderItem
+                order.OrderItems.Add(new OrderItem
                 {
-                    Order = newOrder, 
-                    ProductId = cartItem.ProductId,
-                    Quantity = cartItem.Quantity,
-                    UnitPrice = cartItem.Price
-                };
-                _context.OrderItems.Add(orderItem);
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.Price
+
+                });
+
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product != null)
+                {
+                    product.StockQuantity -= item.Quantity;
+                }
             }
 
+            _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            HttpContext.Session.Remove(CartSessionKey);
-            TempData["Success"] = "Thank you for your purchase!";
 
-            return RedirectToAction("Checkout");
+            //clearuje cart
+            HttpContext.Session.Remove(CartSessionKey);
+            return RedirectToAction("OrderConfirmation", new { orderId = order.OrderId });
         }
+
+        [Authorize]
+        public async Task<IActionResult> OrderConfirmation(int orderId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userId);
+
+            if (order == null) { 
+                return NotFound();
+            }
+
+            return View(order);
+
+        }
+
 
         //helper metoda koja ucitava cart iz sessiona, ako nema cart u sessionu, vraca novi prazan cart
         private void SaveCart(CartViewModel cart)

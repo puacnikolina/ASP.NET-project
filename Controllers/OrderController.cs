@@ -30,8 +30,12 @@ public class OrderController : Controller
             return NotFound();
         }
 
+        // da moze da se display - uzima sve iteme
         var order = await _context.Orders
+            .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
             .FirstOrDefaultAsync(m => m.OrderId == orderid);
+
         if (order == null)
         {
             return NotFound();
