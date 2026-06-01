@@ -160,7 +160,7 @@ namespace Project.Controllers
         [HttpPost]
         [Authorize] //znaci da mora biti ulogovan da bi mogao da poziva ovo
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PlaceOrder(string? shippingAdress)
+        public async Task<IActionResult> PlaceOrder(string? shippingAddress)
         {
             var cart = GetCart();
             if (cart.IsEmpty)
@@ -174,7 +174,7 @@ namespace Project.Controllers
             {
                 UserId = userId,
                 TotalAmount = cart.TotalPrice,
-                ShippingAddress = shippingAdress,
+                ShippingAddress = shippingAddress,
                 Status = Order.OrderStatus.Pending,
                 OrderDate = DateTime.Now
 

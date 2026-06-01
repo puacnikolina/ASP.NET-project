@@ -25,15 +25,10 @@
                     </dd>
                 </div>
             </div>
-
-            @if (!string.IsNullOrEmpty(Model.ShippingAddress))
-            {
-                <div class="mb-6">
-                    <dt class="text-sm font-medium text-gray-500">Shipping Address</dt>
-                    <dd class="mt-1 text-sm text-gray-900">@Model.ShippingAddress</dd>
-                </div>
-            }
-
+            <div class="mb-6">
+                <dt class="text-sm font-medium text-gray-500">Shipping Address</dt>
+                <dd class="mt-1 text-sm text-gray-900">@Model.ShippingAddress</dd>
+            </div>
             <div>
                 <h3 class="text-sm font-medium text-gray-900 mb-4">Order Items</h3>
                 <div class="overflow-x-auto">
@@ -52,15 +47,15 @@
                                 <tr>
                                     <td class="py-4 text-sm text-gray-900">@item.Product.Name</td>
                                     <td class="py-4 text-sm text-gray-500">@item.Quantity</td>
-                                    <td class="py-4 text-sm text-gray-500">@item.UnitPrice.ToString("C")</td>
-                                    <td class="py-4 text-sm text-gray-900 text-right">@item.TotalPrice.ToString("C")</td>
+                                    <td class="py-4 text-sm text-gray-500">@item.UnitPrice €</td>
+                                    <td class="py-4 text-sm text-gray-900 text-right">@item.TotalPrice €</td>
                                 </tr>
                             }
                         </tbody>
                         <tfoot>
                             <tr class="border-t-2 border-gray-300">
                                 <td colspan="3" class="py-4 text-right text-sm font-medium text-gray-900">Order Total</td>
-                                <td class="py-4 text-right text-base font-bold text-gray-900">@Model.TotalAmount.ToString("C")</td>
+                                <td class="py-4 text-right text-base font-bold text-gray-900">@Model.TotalAmount €</td>
                             </tr>
                         </tfoot>
                     </table>

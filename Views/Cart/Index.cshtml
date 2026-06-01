@@ -66,9 +66,9 @@ else
                             <div class="ml-4 flex flex-1 flex-col">
                                 <div class="flex justify-between text-base font-medium text-gray-900">
                                     <h3>@item.ProductName</h3>
-                                    <p class="ml-4">@item.TotalPrice.ToString("C")</p>
+                                    <p class="ml-4">@item.TotalPrice €</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500">@item.Price.ToString("C") each</p>
+                                <p class="mt-1 text-sm text-gray-500">@item.Price € each</p>
 
                                 <div class="flex flex-1 items-end justify-between text-sm mt-4">
                                     <form asp-action="UpdateQuantity" method="post" class="flex items-center gap-2">
@@ -109,7 +109,7 @@ else
                   
                     </div>
                     <div class="flex items-center justify-between border-t border-gray-200 pt-4">
-                        <dd class="text-base font-medium text-gray-900">Total @Model.TotalPrice.ToString("C")</dd>
+                        <dd class="text-base font-medium text-gray-900">Total @Model.TotalPrice €</dd>
                     </div>
                 </dl>
 
