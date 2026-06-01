@@ -10,7 +10,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //dependency injection za db context, da bi mogli da koristimo db context u controllerima i drugim delovima aplikacije
 //konfigurisemo identity da koristi nas db context za cuvanje korisnickih podataka
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
-    options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+    options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
 
 //dodajemo podrsku za session, da bi mogli da cuvamo podatke o korpi u sessionu
 builder.Services.AddDistributedMemoryCache();

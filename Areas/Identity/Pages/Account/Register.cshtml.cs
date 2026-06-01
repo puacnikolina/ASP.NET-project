@@ -140,8 +140,7 @@ public class RegisterModel : PageModel
                 }
                 else
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    return RedirectToPage("/Account/Login", new { area = "Identity", returnUrl = returnUrl });
                 }
             }
             foreach (var error in result.Errors)
