@@ -1,0 +1,39 @@
+@model List<Project.Models.ViewModels.ProductStatViewModel>
+
+@{
+    ViewData["Title"] = "Purchase Stats";
+}
+
+<h1 class="text-3xl font-bold text-gray-900 mb-6">Purchase Stats</h1>
+
+<div class="bg-white shadow sm:rounded-lg overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Product</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Units sold</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Orders containing it</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Revenue</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 bg-white">
+            @if (!Model.Any())
+            {
+                <tr><td colspan="4" class="py-4 px-4 text-sm text-gray-500">No purchases yet.</td></tr>
+            }
+            @foreach (var stat in Model)
+            {
+                <tr class="hover:bg-gray-50">
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">@stat.ProductName</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">@stat.TotalQuantitySold</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">@stat.OrderCount</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">@stat.TotalRevenue.ToString("0.00") €</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-6">
+    <a asp-action="Index" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Back to dashboard</a>
+</div>

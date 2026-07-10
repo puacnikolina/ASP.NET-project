@@ -1,0 +1,60 @@
+@model List<Project.Models.ApplicationUser>
+@using System
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h1 class="text-3xl font-bold text-gray-900 mb-6">Manage Users</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="rounded-md bg-red-50 p-4 mb-4 text-sm text-red-700">@TempData["Error"]</div>
+}
+
+<div class="bg-white shadow sm:rounded-lg overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Email</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6"><span class="sr-only">Actions</span></th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 bg-white">
+            @foreach (var user in Model)
+            {
+                <tr class="hover:bg-gray-50">
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">@user.Email</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm">
+                        @if (user.LockoutEnd.HasValue && user.LockoutEnd > DateTimeOffset.UtcNow)
+                        {
+                            <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">Banned</span>
+                        }
+                        else
+                        {
+                            <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">Active</span>
+                        }
+                    </td>
+                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                        <form asp-action="ToggleBan" method="post">
+                            <input type="hidden" name="userId" value="@user.Id" />
+                            @if (user.LockoutEnd.HasValue && user.LockoutEnd > DateTimeOffset.UtcNow)
+                            {
+                                <button type="submit" class="rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-green-500">Unban</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-500">Ban</button>
+                            }
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-6">
+    <a asp-action="Index" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Back to dashboard</a>
+</div>

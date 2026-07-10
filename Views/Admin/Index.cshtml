@@ -1,0 +1,49 @@
+@model Project.Models.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1 class="text-3xl font-bold text-gray-900 mb-6">Admin Dashboard</h1>
+
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+    <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+        <div class="text-sm font-medium text-gray-500">Total users</div>
+        <div class="mt-1 text-3xl font-semibold text-gray-900">@Model.TotalUsers</div>
+    </div>
+    <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+        <div class="text-sm font-medium text-gray-500">Banned users</div>
+        <div class="mt-1 text-3xl font-semibold text-red-600">@Model.BannedUsers</div>
+    </div>
+    <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+        <div class="text-sm font-medium text-gray-500">Total orders</div>
+        <div class="mt-1 text-3xl font-semibold text-gray-900">@Model.TotalOrders</div>
+    </div>
+    <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+        <div class="text-sm font-medium text-gray-500">Pending orders</div>
+        <div class="mt-1 text-3xl font-semibold text-yellow-600">@Model.PendingOrders</div>
+    </div>
+    <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+        <div class="text-sm font-medium text-gray-500">Processing orders</div>
+        <div class="mt-1 text-3xl font-semibold text-blue-600">@Model.ProcessingOrders</div>
+    </div>
+    <div class="bg-white overflow-hidden shadow rounded-lg p-5">
+        <div class="text-sm font-medium text-gray-500">Total revenue</div>
+        <div class="mt-1 text-3xl font-semibold text-green-600">@Model.TotalRevenue.ToString("0.00") €</div>
+    </div>
+</div>
+
+<div class="flex gap-4">
+    <a asp-action="Stats" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">View purchase stats</a>
+    <a asp-action="Orders" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Manage orders</a>
+    <a asp-action="Users" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Manage users</a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="mt-4 rounded-md bg-green-50 p-4 text-sm text-green-700">@TempData["Success"]</div>
+}
+
+<div class="mt-4">
+    <a asp-action="CreateProduct" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Add new product</a>
+</div>

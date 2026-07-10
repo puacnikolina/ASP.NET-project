@@ -1,0 +1,59 @@
+@model List<Project.Models.Order>
+
+@{
+    ViewData["Title"] = "Manage Orders";
+}
+
+<h1 class="text-3xl font-bold text-gray-900 mb-6">Manage Orders</h1>
+
+<div class="bg-white shadow sm:rounded-lg overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Order</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Customer</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Total</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 bg-white">
+            @if (!Model.Any())
+            {
+                <tr><td colspan="5" class="py-4 px-4 text-sm text-gray-500">No orders yet.</td></tr>
+            }
+            @foreach (var order in Model)
+            {
+                <tr class="hover:bg-gray-50">
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">#@order.OrderId</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">@order.User?.Email</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">@order.OrderDate</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">@order.TotalAmount.ToString("0.00") €</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                        <form asp-action="UpdateOrderStatus" method="post" class="flex items-center gap-2">
+                            <input type="hidden" name="orderId" value="@order.OrderId" />
+                            <select name="status" class="rounded-md border border-gray-300 text-sm py-1">
+                                @foreach (var status in Enum.GetValues<Project.Models.Order.OrderStatus>())
+                                {
+                                    if (status == order.Status)
+                                    {
+                                        <option value="@status" selected>@status</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@status">@status</option>
+                                    }
+                                }
+                            </select>
+                            <button type="submit" class="rounded-md bg-indigo-600 px-3 py-1 text-sm font-semibold text-white hover:bg-indigo-500">Update</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-6">
+    <a asp-action="Index" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Back to dashboard</a>
+</div>
